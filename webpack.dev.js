@@ -6,7 +6,7 @@ const DashboardPlugin = require('webpack-dashboard/plugin');
 
 module.exports = webpackMerge(commonConfig, {
 	devServer: {
-		port: 3333
+		port: 4444
 	},
 	plugins: [
 		new DashboardPlugin()

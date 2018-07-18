@@ -12,6 +12,12 @@ export class Rest {
 		});
 	}
 
+	public async getCustomers(): Promise<string[]> {
+		this.http.baseUrl = "/";
+
+		return this.http.fetch("data/customers.json").then(response => response.json());
+	}
+
 	public async getUsers(url: string): Promise<any[]> {
 		this.http.baseUrl = "https://api.github.com/users";
 

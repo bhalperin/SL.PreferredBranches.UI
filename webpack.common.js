@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { AureliaPlugin, ModuleDependenciesPlugin } = require("aurelia-webpack-plugin");
 const optimize = webpack.optimize;
 
@@ -89,6 +90,10 @@ module.exports = {
 		new HtmlWebpackPlugin({
 			template: "./src/index.html"
 		}),
+        new CopyWebpackPlugin([{
+            from: "src/data",
+            to: "data"
+        }]),
     	new AureliaPlugin()
 	]
 };
