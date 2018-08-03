@@ -1,0 +1,69 @@
+.branches-view {
+	.header {
+		margin-bottom: 40px;
+	}
+
+	.table {
+		.header-cell {
+			background-color: #eae5e5;
+		}
+	}
+
+	.customer-list {
+		.customer-row {
+			.customer-cell {
+				&.selected {
+					background-color: #002238;
+					color: #ffffff;
+				}
+
+				.customer-name {
+					cursor: default;
+				}
+			}
+		}
+	}
+
+	.loading {
+		font-size: 3em;
+		text-align: center;
+	}
+
+	.modifiers {
+		margin-bottom: 20px;
+	}
+	
+	.app-list {
+		.app-row {
+			.app-cell {
+				.prefix {
+					width: 100%;
+				}
+
+				.preferred-branch-name {
+					&.changed {
+						color: #dc3545;
+					}
+				}
+
+				.action {
+					background-color: #002238;
+					border: none;
+
+					&:hover {
+						background-color: #ffffff;
+						color: #002238;
+					}
+
+					&:disabled {
+						&:hover {
+							background-color: #002238;
+							color: #ffffff;
+							cursor: not-allowed;
+						}
+					}
+				}
+			}
+		}
+	}
+}

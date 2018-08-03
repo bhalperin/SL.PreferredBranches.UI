@@ -1,0 +1,55 @@
+<template>
+	<require from="./app-branches-list"></require>
+	<require from="../styles/branches.less"></require>
+	<require from="font-awesome/less/font-awesome.less"></require>
+
+	<div class="container-fluid branches-view">
+		<div class="row">
+			<div class="col-2">
+				<table class="table table-bordered table-hover customer-list">
+					<thead>
+						<th class="header-cell">Customer</th>
+					</thead>
+					<tbody>
+						<tr repeat.for="customer of customers" class="customer-row" click.delegate="onSelectCustomer(customer.name)">
+							<td class="customer-cell" ref="customerNameElements[customer.name]"><span class="customer-name">${customer.name}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-10">
+				<div class="modifiers">
+					<input type="checkbox" id="includedOnly" checked.bind="showIncludedComponentsOnly">
+					<label for="includedOnly">Show included components only</label>
+				</div>
+				<table if.bind="selectedCustomer" class="table table-bordered table-hover app-list">
+					<thead>
+						<th class="header-cell">Component</th>
+						<th class="header-cell">All Branches</th>
+						<th class="header-cell">Use Prefix?</th>
+						<th class="header-cell">Prefix</th>
+						<th class="header-cell">Preferred Branch</th>
+						<th class="header-cell"></th>
+					</thead>
+					<tbody>
+						<tr repeat.for="app of appList" class="app-row" hidden.bind="showIncludedComponentsOnly && !app.isPreferredBranch">
+							<td class="app-cell"><span class="app-name">${app.appName}</span></td>
+							<td class="app-cell"><app-branches-list app.bind="app" disabled.bind="app.isPrefix" selected-branch.bind="app.selectedBranchName" hidden.bind="!app.isPreferredBranch"></app-branches-list></td>
+							<td class="app-cell"><input type="checkbox" checked.bind="app.isPrefix" click.delegate="onClickIsPrefix(app)" hidden.bind="!app.isPreferredBranch"></td>
+							<td class="app-cell"><input type="text" class="prefix" value.bind="app.branchNamePrefix" placeholder="Enter value of leave blank" disabled.bind="!app.isPrefix" hidden.bind="!app.isPreferredBranch"></td>
+							<td class="app-cell"><span class="preferred-branch-name" class.bind="app.isPrefix ? (app.preferredBranchName === app.branchNamePrefix ? '' : 'changed') : (app.preferredBranchName === app.selectedBranchName ? '' : 'changed')">${app.preferredBranchName}</span></td>
+							<td class="app-cell">
+								<button type="button" class="btn btn-primary action" click.delegate="onIncludeApp(app)" hidden.bind="app.isPreferredBranch">Include</button>
+								<button type="button" class="btn btn-primary action" click.delegate="onDeleteBranch(app)" hidden.bind="!app.isPreferredBranch">Exclude</button>
+								<button type="button" class="btn btn-primary action" click.delegate="onSaveBranch(app)" hidden.bind="!app.isPreferredBranch">Save</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="loading" hidden.bind="isLoaded || !selectedCustomer">
+					<i class="fa fa-spin fa-life-ring"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

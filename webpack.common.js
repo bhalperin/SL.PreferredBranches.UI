@@ -93,7 +93,16 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: "src/data",
             to: "data"
-        }]),
+        }, {
+			from: "src/favicon.ico",
+			to: "/"
+		}, {
+			from: "src/favicon-16x16.png",
+			to: "/"
+		}, {
+			from: "src/favicon-32x32.png",
+			to: "/"
+		}]),
     	new AureliaPlugin()
 	]
 };
