@@ -1,7 +1,7 @@
 <template>
 	<require from="font-awesome/less/font-awesome.less"></require>
 
-	<i class="fa fa-spin fa-life-ring" hidden.bind="isLoaded"></i>
+	<i class="fa fa-spin fa-life-ring loading-branches" hidden.bind="isLoaded"></i>
 
 	<select element.ref="branchList" class="branch-list ${appName}-branch-list" disabled.bind="disabled" hidden.bind="!isLoaded" change.trigger="onSelectBranch($event)">
 		<option repeat.for="branch of branches" value="branch" selected.bind="branch === selectedBranch">${branch}</option>

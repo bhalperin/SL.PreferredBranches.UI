@@ -111,7 +111,8 @@ export class Branches {
 	}
 
 	private async onSaveBranch(app: IAppListItem) {
-		await this.rest.updatePreferredBranch(this.selectedCustomer, app);
+		const response = await this.rest.updatePreferredBranch(this.selectedCustomer, app);
+
 		alert(`Saved ${app.preferredBranchName}`);
 	}
 
@@ -121,6 +122,7 @@ export class Branches {
 		if (response.ok !== undefined && !response.ok) {
 			alert(`Error deleted ${app.appName}: ${response.statusText}`);
 		}
+		app.isPreferredBranch = false;
 	}
 
 	private sortByStringProperty(obj1: IAppListItem, obj2: IAppListItem, propertyName: string): number {
@@ -131,5 +133,9 @@ export class Branches {
 		}
 
 		return 0;
+	}
+
+	private get appsIncluded(): number {
+		return this.appList.filter(app => app.isPreferredBranch).length;
 	}
 }

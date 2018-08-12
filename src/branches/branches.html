@@ -19,8 +19,12 @@
 			</div>
 			<div class="col-10">
 				<div class="modifiers">
-					<input type="checkbox" id="includedOnly" checked.bind="showIncludedComponentsOnly">
-					<label for="includedOnly">Show included components only</label>
+					<h4>
+						Total components
+						<span class="badge" class.bind="showIncludedComponentsOnly ? 'badge-light' : 'badge-dark'" click.delegate="showIncludedComponentsOnly = false">${appList.length}</span>
+						With preferred branch
+						<span class="badge" class.bind="showIncludedComponentsOnly ? 'badge-dark' : 'badge-light'" click.delegate="showIncludedComponentsOnly = true">${appsIncluded}</span>
+					</h4>
 				</div>
 				<table if.bind="selectedCustomer" class="table table-bordered table-hover app-list">
 					<thead>
@@ -34,18 +38,21 @@
 					<tbody>
 						<tr repeat.for="app of appList" class="app-row" hidden.bind="showIncludedComponentsOnly && !app.isPreferredBranch">
 							<td class="app-cell"><span class="app-name">${app.appName}</span></td>
-							<td class="app-cell"><app-branches-list app.bind="app" disabled.bind="app.isPrefix" selected-branch.bind="app.selectedBranchName" hidden.bind="!app.isPreferredBranch"></app-branches-list></td>
+							<td class="app-cell"><app-branches-list view-model.ref="branchList" app.bind="app" disabled.bind="app.isPrefix" selected-branch.bind="app.selectedBranchName" hidden.bind="!app.isPreferredBranch"></app-branches-list></td>
 							<td class="app-cell"><input type="checkbox" checked.bind="app.isPrefix" click.delegate="onClickIsPrefix(app)" hidden.bind="!app.isPreferredBranch"></td>
 							<td class="app-cell"><input type="text" class="prefix" value.bind="app.branchNamePrefix" placeholder="Enter value of leave blank" disabled.bind="!app.isPrefix" hidden.bind="!app.isPreferredBranch"></td>
-							<td class="app-cell"><span class="preferred-branch-name" class.bind="app.isPrefix ? (app.preferredBranchName === app.branchNamePrefix ? '' : 'changed') : (app.preferredBranchName === app.selectedBranchName ? '' : 'changed')">${app.preferredBranchName}</span></td>
+							<td class="app-cell"><span class="preferred-branch-name" class.bind="app.isPrefix ? (app.preferredBranchName === app.branchNamePrefix ? '' : 'changed') : (app.preferredBranchName === app.selectedBranchName ? '' : 'changed')" hidden.bind="!app.isPreferredBranch">${app.preferredBranchName}</span></td>
 							<td class="app-cell">
-								<button type="button" class="btn btn-primary action" click.delegate="onIncludeApp(app)" hidden.bind="app.isPreferredBranch">Include</button>
-								<button type="button" class="btn btn-primary action" click.delegate="onDeleteBranch(app)" hidden.bind="!app.isPreferredBranch">Exclude</button>
-								<button type="button" class="btn btn-primary action" click.delegate="onSaveBranch(app)" hidden.bind="!app.isPreferredBranch">Save</button>
+								<button type="button" class="btn btn-primary action" click.delegate="onIncludeApp(app)" hidden.bind="app.isPreferredBranch"><i class="fa fa-plus"></i></button>
+								<button type="button" class="btn btn-primary action" click.delegate="onDeleteBranch(app)" hidden.bind="!app.isPreferredBranch" disabled.bind="!branchList.isLoaded"><i class="fa fa-trash"></i></button>
+								<button type="button" class="btn btn-primary action" click.delegate="onSaveBranch(app)" hidden.bind="!app.isPreferredBranch" disabled.bind="!branchList.isLoaded"><i class="fa fa-save"></i></button>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+				<div class="empty-list" hidden.bind="!isLoaded || !selectedCustomer || (showIncludedComponentsOnly && appsIncluded) || (!showIncludedComponentsOnly && appList.length)">
+					<h3>Nothing. Nada. Zip.</h3>
+				</div>
 				<div class="loading" hidden.bind="isLoaded || !selectedCustomer">
 					<i class="fa fa-spin fa-life-ring"></i>
 				</div>

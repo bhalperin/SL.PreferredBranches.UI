@@ -66,7 +66,9 @@ export class Rest {
 			body: json(body),
 			headers,
 			method: "POST"
-		}).then(response => response.json());
+		})
+		.then(response => response.json())
+		.catch(error => error);
 	}
 
 	public async deletePreferredBranch(customer: string, app: IAppListItem): Promise<any> {
@@ -77,7 +79,9 @@ export class Rest {
 		return this.http.fetch(`${this.customerApiBaseUrl}v3/report/preferredBranch/${customer}/${app.appName}`, {
 			headers,
 			method: "DELETE"
-		}).then(response => response.json()).catch(error => error);
+		})
+		.then(response => response.json())
+		.catch(error => error);
 	}
 
 	public async getApps(): Promise<any> {

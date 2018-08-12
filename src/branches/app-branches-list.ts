@@ -9,9 +9,9 @@ export class AppBranchesList {
 	@bindable public app: IAppListItem;
 	@bindable public disabled: boolean;
 	@bindable public selectedBranch: string;
+	public isLoaded: boolean = false;
 	private branches: string[] = [];
 	private ea: EventAggregator;
-	private isLoaded: boolean = false;
 	private rest: Rest;
 
 	constructor(private eventAggragator: EventAggregator, public http: HttpClient, private r: Rest) {
